@@ -1,36 +1,33 @@
+// Inventory.java
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Inventory {
+    private Map<String, Integer> items = new HashMap<>();
 
-    // TODO: private Map<String, Integer> items
-    // - HashMap<>() -ээр initialize хий
+    public void addItem(String name) {
+        items.merge(name, 1, Integer::sum);
+    }
 
-    // ─────── 🟡 Stretch: item types ───────
-    // TODO: private Map<String, ItemType> itemTypes
-    // - HashMap<>() -ээр initialize хий
+    public void removeItem(String name) {
+        if (!items.containsKey(name)) {
+            return;
+        }
 
-    // TODO: addItem(String name) → void
-    // - items.merge(name, 1, Integer::sum) эсвэл if/else
+        int count = items.get(name) - 1;
 
-    // TODO: removeItem(String name) → void
-    // - count буурна
-    // - 0 болох эсвэл доош орвол entry устгана
+        if (count <= 0) {
+            items.remove(name);
+        } else {
+            items.put(name, count);
+        }
+    }
 
-    // TODO: hasItem(String name) → boolean
-    // - Map-д байна уу, count > 0 уу гэдгийг шалгана
+    public boolean hasItem(String name) {
+        return items.containsKey(name) && items.get(name) > 0;
+    }
 
-    // TODO: getCount(String name) → int
-    // - items-с count эсвэл 0
-
-    // ─────── 🟡 Stretch (30 оноо) ───────
-
-    // TODO: addItem(String name, ItemType type) → void
-    // - count нэмэх ба itemTypes-д type-ийг хадгална
-
-    // TODO: groupByType() → Map<ItemType, List<String>>
-    // - itemTypes-аас ItemType тус бүрд тухайн item нэрсийн жагсаалтыг цуглуулна
-    // - зөвхөн одоо inventory-д count > 0 байгаа item-ийг тооно
+    public int getCount(String name) {
+        return items.getOrDefault(name, 0);
+    }
 }

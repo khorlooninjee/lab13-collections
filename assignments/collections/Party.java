@@ -1,32 +1,35 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Party {
 
-    // TODO: private List<Character> members
-    // - new ArrayList<>() -ээр initialize хий
+    private List<Character> members = new ArrayList<>();
 
-    // TODO: add(Character c) → void
-    // - members.add(c)
+    public void addMember(Character character) {
+        members.add(character);
+    }
 
-    // TODO: remove(Character c) → void
-    // - members.remove(c)
+    public List<Character> getAliveMembers() {
+        return members.stream()
+                .filter(Character::isAlive)
+                .collect(Collectors.toList());
+    }
 
-    // TODO: size() → int
-    // - members.size()
+    public void removeDeadMembers() {
+        Iterator<Character> iterator = members.iterator();
 
-    // TODO: getAlive() → List<Character>
-    // - зөвхөн c.isAlive() == true баатруудыг агуулсан шинэ List буцаах
+        while (iterator.hasNext()) {
+            Character character = iterator.next();
 
-    // ─────── 🟡 Stretch (30 оноо) ───────
+            if (!character.isAlive()) {
+                iterator.remove();
+            }
+        }
+    }
 
-    // TODO: sortByHp() → List<Character>
-    // - members-ын хуулбар дээр hp-ээр буурах эрэмбээр sort хийнэ
-    // - Comparator эсвэл lambda ашиглана
-    // - жишээ: sorted.sort((a, b) -> Integer.compare(b.getHp(), a.getHp()))
-
-    // ─────── 🔴 Bonus (10 оноо) ───────
-
-    // TODO: getAliveStream() → long
-    // - members.stream().filter(Character::isAlive).count()
+    public int size() {
+        return members.size();
+    }
 }
